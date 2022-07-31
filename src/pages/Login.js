@@ -1,12 +1,14 @@
 import React from 'react';
-import { client } from '../supabase/client';
+import { useNavigate } from 'react-router-dom';
+import { supabaseClient } from '../supabase/client';
 
 const Login = () => {
+  const navigate= useNavigate();
   const [email, setEmail] = React.useState('');
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await client.auth.signIn({
+      const response = await supabaseClient.auth.signIn({
         email,
       });
       console.log(response);
@@ -14,6 +16,12 @@ const Login = () => {
       console.error(error);
     }
   };
+
+  React.useEffect(() => {
+    if(supabaseClient.auth.user()) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   return (
     <div>
