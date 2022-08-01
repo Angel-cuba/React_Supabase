@@ -5,12 +5,13 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import React from 'react';
 import { supabaseClient } from './supabase/client';
+import ContextProvider from './context/Context';
 
 function App() {
   const navigate = useNavigate();
   React.useEffect(() => {
     supabaseClient.auth.onAuthStateChange((event, session) => {
-      console.log('auth state changed', event, session);
+      console.log('event & session', event, session);
       if (!session) {
         navigate('/login');
       } else {
@@ -20,11 +21,13 @@ function App() {
   }, [navigate]);
   return (
     <div className="App">
-      <Routes>
+      <ContextProvider>
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </ContextProvider>
     </div>
   );
 }
