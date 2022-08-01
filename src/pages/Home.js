@@ -1,13 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import TaskForm from '../components/TaskForm';
-import { TasksContext } from '../context/Context';
+import TaskList from '../components/TaskList';
 import { supabaseClient } from '../supabase/client';
+
 const Home = () => {
   const navigate = useNavigate();
-
-  const tasks = TasksContext();
-  console.log('tasks', tasks);
 
   React.useEffect(() => {
     if (!supabaseClient.auth.user()) {
@@ -19,6 +17,7 @@ const Home = () => {
       Home
       <button onClick={() => supabaseClient.auth.signOut()}>Log out</button>
       <TaskForm />
+      <TaskList />
     </div>
   );
 };

@@ -11,7 +11,6 @@ function App() {
   const navigate = useNavigate();
   React.useEffect(() => {
     supabaseClient.auth.onAuthStateChange((event, session) => {
-      console.log('event & session', event, session);
       if (!session) {
         navigate('/login');
       } else {
