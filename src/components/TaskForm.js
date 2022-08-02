@@ -1,21 +1,14 @@
 import React from 'react';
-import { supabaseClient } from '../supabase/client';
+import { TasksContext } from '../context/Context';
 
 const TaskForm = () => {
   const [task, setTask] = React.useState('');
+const { createTask, loading } = TasksContext();
+
   const handleTask = async (e) => {
     e.preventDefault();
-    try {
-      const user =supabaseClient.auth.user()
-      
-      const result = await supabaseClient.from('tasks').insert({
-        name: task,
-        userId: user.id,
-      });
-      console.log(result);
-    } catch (error) {
-      console.error(error);
-    }
+   createTask(task)
+   setTask('');
   };
 
   return (
@@ -24,10 +17,13 @@ const TaskForm = () => {
         <input
           type="text"
           name="task"
+          value={task}
           placeholder="Task..."
           onChange={(e) => setTask(e.target.value)}
         />
-        <button>Send</button>
+        <button disabled={loading}>
+          {loading ? 'Adding...' : 'Add task'}
+        </button>
       </form>
     </div>
   );

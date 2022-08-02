@@ -10,7 +10,7 @@ const TaskList = () => {
   return <div>{
     tasks.map(task =>
       <div key={task.id}>
-        {task?.name}
+        <h2>{task?.name}</h2>
         <p>{JSON.stringify(task.done)}</p>
         </div>
         )
