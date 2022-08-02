@@ -8,16 +8,18 @@ export const ContextProvider = ({ children }) => {
   const [tasks, setTasks] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
-  const getTasks = async () => {
+  const getTasks = async (done = false) => {
+    setLoading(true);
     const user = supabaseClient.auth.user();
     const { error, data } = await supabaseClient
       .from('tasks')
       .select()
-      .eq('userId', user.id)
-      .eq('done', false);
+      .eq('userId', user?.id)
+      .eq('done', done);
     if (error) throw error;
 
     setTasks(data);
+    setLoading(false);
   };
   const createTask = async (task) => {
     setLoading(true);
@@ -37,8 +39,43 @@ export const ContextProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  const deleteTask = async (id) => {
+    setLoading(true);
+    const user = await supabaseClient.auth.user();
+    console.log(id);
+    try {
+      const { error, data } = await supabaseClient
+        .from('tasks')
+        .delete()
+        .eq('userId', user.id)
+        .eq('id', id);
+      if (error) throw error;
+
+      //Removing task from the array
+      console.log(data);
+      setTasks(tasks.filter((task) => task.id !== id));
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const updateTask = async (id, fileds) => {
+    console.log(id, fileds);
+    const user = await supabaseClient.auth.user();
+
+    const { error } = await supabaseClient
+      .from('tasks')
+      .update(fileds)
+      .eq('userId', user.id)
+      .eq('id', id);
+
+    if (error) throw error;
+    //Updating task in the array
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
   return (
-    <TaskContext.Provider value={{ tasks, getTasks, createTask, loading }}>
+    <TaskContext.Provider value={{ tasks, getTasks, createTask, loading, deleteTask, updateTask }}>
       {children}
     </TaskContext.Provider>
   );

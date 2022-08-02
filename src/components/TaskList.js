@@ -1,20 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import { TasksContext } from '../context/Context';
+import TaskCard from './TaskCard';
 
 const TaskList = () => {
-  const { tasks, getTasks } = TasksContext();
-  console.log('tasks', tasks);
+  const { tasks, getTasks, loading } = TasksContext();
+  console.log(tasks);
   React.useEffect(() => {
-    getTasks();
+    getTasks(false);
   }, []);
-  return <div>{
-    tasks.map(task =>
-      <div key={task.id}>
-        <h2>{task?.name}</h2>
-        <p>{JSON.stringify(task.done)}</p>
+
+  function renderTask() {
+    if (loading) {
+      return <div>Loading...</div>;
+    } else if (tasks.length === 0) {
+      return <div>No tasks</div>;
+    } else {
+      return (
+        <div>
+          {tasks.map((task) => (
+            <TaskCard key={task.id} task={task} />
+          ))}
         </div>
-        )
-    }</div>;
+      );
+    }
+  }
+  return <div>{renderTask()}</div>;
 };
 
 export default TaskList;
