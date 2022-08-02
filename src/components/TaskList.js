@@ -5,7 +5,6 @@ import TaskCard from './TaskCard';
 
 const TaskList = ({taskDone}) => {
   const { tasks, getTasks, loading } = TasksContext();
-  console.log(tasks);
   React.useEffect(() => {
     getTasks(taskDone);
   }, [taskDone]);

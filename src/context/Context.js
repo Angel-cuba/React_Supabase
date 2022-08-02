@@ -60,7 +60,6 @@ export const ContextProvider = ({ children }) => {
     }
   };
   const updateTask = async (id, fileds) => {
-    console.log(id, fileds);
     const user = await supabaseClient.auth.user();
 
     const { error } = await supabaseClient
@@ -73,9 +72,12 @@ export const ContextProvider = ({ children }) => {
     //Updating task in the array
     setTasks(tasks.filter((task) => task.id !== id));
   };
+  const logOut = async () => {
+    await supabaseClient.auth.signOut(); 
+  }
 
   return (
-    <TaskContext.Provider value={{ tasks, getTasks, createTask, loading, deleteTask, updateTask }}>
+    <TaskContext.Provider value={{ tasks, getTasks, createTask, loading, deleteTask, updateTask, logOut }}>
       {children}
     </TaskContext.Provider>
   );

@@ -11,12 +11,16 @@ const TaskCard = ({ task }) => {
     updateTask(task.id, { done: !task.done });
   };
   return (
-    <div>
-      <h2>{task?.name}</h2>
-      <p>{JSON.stringify(task.done)}</p>
-      <div className="">
-        <button onClick={() => handleDone()}>Done</button>
-        <button onClick={() => handleDelete(task.id)}>Delete</button>
+    <div className="card card-body mb-3">
+      <h2 className="h4">{task?.name}</h2>
+      <p>{task.done ? "Done 🚀": "Not Done ❌"}</p>
+      <div className="ms-auto">
+        <button className="btn btn-danger btn-sm me-1" onClick={() => handleDone()}>
+          Done
+        </button>
+        <button className="btn btn-secondary btn-sm " onClick={() => handleDelete(task.id)}>
+          Delete
+        </button>
       </div>
     </div>
   );

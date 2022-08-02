@@ -12,20 +12,21 @@ const { createTask, loading } = TasksContext();
   };
 
   return (
-    <div>
-      <form onSubmit={handleTask}>
+      <form onSubmit={handleTask} className="card card-body">
         <input
           type="text"
           name="task"
           value={task}
           placeholder="Task..."
           onChange={(e) => setTask(e.target.value)}
+          className="form-control mb-2"
         />
-        <button disabled={loading}>
+        <div className="ms-auto">
+          <button disabled={loading} className="btn btn-primary">
           {loading ? 'Adding...' : 'Add task'}
         </button>
+        </div>
       </form>
-    </div>
   );
 };
 

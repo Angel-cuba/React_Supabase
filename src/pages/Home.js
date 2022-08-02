@@ -16,19 +16,17 @@ const Home = () => {
 
   const toggleTaskDone = () => {
     setTaskDone(!taskDone);
-  }
+  };
   return (
-    <div>
-      Home
-      <button onClick={() => supabaseClient.auth.signOut()}>Log out</button>
+    <div className="row pt-4">
       <TaskForm />
-      <header>
-        <span>Tasks pending</span>
-        <button onClick={toggleTaskDone}>
-          Showing tasks done
+      <header className="d-flex justify-content-between my-4 ">
+        <span className="h5">{taskDone ? 'Done' : 'Pending'}</span>
+        <button className="btn btn-dark btn-small" onClick={toggleTaskDone}>
+          {taskDone ? 'Pending tasks' : 'Done tasks '}
         </button>
       </header>
-      <TaskList taskDone={taskDone}/>
+      <TaskList taskDone={taskDone} />
     </div>
   );
 };

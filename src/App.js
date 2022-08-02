@@ -6,6 +6,7 @@ import NotFound from './pages/NotFound';
 import React from 'react';
 import { supabaseClient } from './supabase/client';
 import ContextProvider from './context/Context';
+import Navbar from './components/Navbar';
 
 function App() {
   const navigate = useNavigate();
@@ -19,15 +20,18 @@ function App() {
     });
   }, [navigate]);
   return (
-    <div className="App">
+    <>
       <ContextProvider>
-        <Routes>
+        <Navbar/>
+        <div className="container">
+          <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+        </div>
       </ContextProvider>
-    </div>
+    </>
   );
 }
 
