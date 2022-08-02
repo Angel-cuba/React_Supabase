@@ -3,12 +3,12 @@ import React from 'react';
 import { TasksContext } from '../context/Context';
 import TaskCard from './TaskCard';
 
-const TaskList = () => {
+const TaskList = ({taskDone}) => {
   const { tasks, getTasks, loading } = TasksContext();
   console.log(tasks);
   React.useEffect(() => {
-    getTasks(false);
-  }, []);
+    getTasks(taskDone);
+  }, [taskDone]);
 
   function renderTask() {
     if (loading) {

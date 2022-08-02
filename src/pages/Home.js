@@ -6,18 +6,29 @@ import { supabaseClient } from '../supabase/client';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [taskDone, setTaskDone] = React.useState(false);
 
   React.useEffect(() => {
     if (!supabaseClient.auth.user()) {
       navigate('/login');
     }
   }, [navigate]);
+
+  const toggleTaskDone = () => {
+    setTaskDone(!taskDone);
+  }
   return (
     <div>
       Home
       <button onClick={() => supabaseClient.auth.signOut()}>Log out</button>
       <TaskForm />
-      <TaskList />
+      <header>
+        <span>Tasks pending</span>
+        <button onClick={toggleTaskDone}>
+          Showing tasks done
+        </button>
+      </header>
+      <TaskList taskDone={taskDone}/>
     </div>
   );
 };
